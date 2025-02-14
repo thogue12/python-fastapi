@@ -1,0 +1,97 @@
+name: DevSecOps Pipeline
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  
+  lint_format:
+    name: Run lint and formatting checks with pylint and black
+    runs-on: ubuntu-latest
+    strategy:
+        matrix:
+          python-version: ["3.12", "3.13"]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: 'Setup Python ${{ matrix.python-version}}'
+      uses: actions/setup-python@v3
+      with:
+        python-version: '${{ matrix.python-version}}'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint
+        pip install pylint black
+
+    - name: Run pylint
+      run: pylint $(git ls-files '*.py')
+      
+    - name: Run black
+      run: black --check .
+    
+
+  security_scans:
+    name: Run Trivy security check against repo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+    # Build docker image    
+      - name: Build an image from Dockerfile
+        run: |
+          docker build -t awesome-fastapi:${{ github.sha }} .
+
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+        with:
+          image-ref: 'awesome-fastapi:${{ github.sha }}'
+          format: 'template'
+          template: '@/contrib/sarif.tpl'
+          output: 'GitHub Actions/Trivy Automation'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'GitHub Actions/Trivy Automation'
+
+
+  testing_phase:
+    name: Run unit test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Run tests
+      run: pytest
+
+      
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        run: |
+          docker build -t awesome-fastapi:${{ github.sha }} .
+
+
