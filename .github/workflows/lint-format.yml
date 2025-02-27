@@ -1,11 +1,6 @@
 name: Linting and Formating checks
 on:
-   workflow_dispatch:
-
-permissions:
-  contents: read
-  security-events: write
-  actions: read
+    workflow_call:
 
 jobs:  
     # Run Pylint and Black formatter

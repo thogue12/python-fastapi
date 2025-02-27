@@ -1,12 +1,6 @@
 name: Unit and Security Testing
 on:
-  workflow_dispatch:
-    
-
-permissions:
-  contents: read
-  security-events: write
-  actions: read
+  workflow_call:
 
 jobs: 
     # Run unit test cases for the Docker image
