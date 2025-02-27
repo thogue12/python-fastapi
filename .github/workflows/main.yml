@@ -9,6 +9,7 @@ permissions:
   security-events: write
   actions: read
 
+  
 jobs: 
     build-image:
         uses: ./.github/workflows/build-image.yml
