@@ -2,11 +2,6 @@ name: Push Contianer to Docker Hub
 on: 
   workflow_call:
 
-permissions:
-  contents: read
-  security-events: write
-  actions: read
-
 jobs:
 
   docker:
