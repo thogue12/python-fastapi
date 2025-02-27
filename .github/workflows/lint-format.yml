@@ -1,6 +1,6 @@
 name: Linting and Formating checks
 on:
-   workflow_call:
+  workflow_call:
 
 permissions:
   contents: read
