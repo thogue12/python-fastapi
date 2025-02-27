@@ -1,6 +1,7 @@
 name: Push Contianer to Docker Hub
 on: 
-  workflow_call:
+    workflow_call:
+
 
 jobs:
 
