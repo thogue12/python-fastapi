@@ -22,11 +22,9 @@ jobs:
       run: |
         pip install -r requirements.txt
         python -m pip install --upgrade pip
-        pip install pylint
-        pip install black
 
     - name: Run pylint
       run: pylint $(git ls-files '*.py')
 
     - name: Run black
-      run: black .
+      run: black --check .
