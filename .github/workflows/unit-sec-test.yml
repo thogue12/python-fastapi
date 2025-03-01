@@ -60,8 +60,8 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t awesome-fastapi:${{ github.sha }} . 
-          
+          docker build -t awesome-fastapi:${{ github.sha }} .   ###- This section needed to be added becasue the image was not persisting between jobs--##
+
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
         with:
