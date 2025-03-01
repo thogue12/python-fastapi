@@ -26,6 +26,11 @@ jobs:
 
     - name: Run pylint
       run: pylint $(git ls-files '*.py')
+      shell: /usr/bin/bash -e {0}
+      env:
+        pythonLocation: /opt/hostedtoolcache/Python/3.12.5/x64
+        LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.5/x64/lib
+
       
     - name: Run black
       run: black --check .
