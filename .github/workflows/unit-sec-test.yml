@@ -36,11 +36,13 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
           
-     
-      - name: Run Snyk to check for vulnerabilities
-        uses: actions/checkout@master
+      - name: Install Snyk CLI
+        run: npn install -g snyk
+
+      - name: Authenticate with Snyk
+        run:  snyk auth ${{ secrets.SNYK_TOKEN }}
         env:
-          synk_auth: ${{ secrets.SNYK_TOKEN }}
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Snyk Code test
         run: snyk code test --sarif > snyk-cide.sarif
