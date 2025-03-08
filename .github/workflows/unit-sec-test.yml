@@ -37,7 +37,7 @@ jobs:
         run: pip install -r requirements.txt
           
       - name: Install Snyk CLI
-        run: npn install -g snyk
+        run: npm install -g snyk
 
       - name: Authenticate with Snyk
         run:  snyk auth ${{ secrets.SNYK_TOKEN }}
