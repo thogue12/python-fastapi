@@ -29,13 +29,13 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/python-3.10@master
+        uses: snyk/actions/python@master
         with:
           python-version: "3.12.5"
            
       - name: Install dependencies
         run: pip install -r requirements.txt
-          
+
       - name: Install Snyk CLI
         run: npm install -g snyk
 
