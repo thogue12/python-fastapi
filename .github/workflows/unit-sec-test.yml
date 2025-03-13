@@ -14,7 +14,6 @@ jobs:
     
     - name: Install dependencies
       run: |
-        pwd
         pip install -r requirements.txt
     
 
@@ -31,14 +30,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Install dependencies
-        run: pip install -r ./requirements.txt
 
       - uses: actions/checkout@v4
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
         with:
           python-version: "3.12.5"
+
+      - name: Install dependencies
+        run: |
+          pwd
+          pip install -r ./requirements.txt
         
 
       - name: Install Snyk CLI
