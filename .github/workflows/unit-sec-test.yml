@@ -29,7 +29,7 @@ jobs:
     steps:
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r python-fastapi/requirements.txt
 
       - uses: actions/checkout@v4
       - name: Run Snyk to check for vulnerabilities
