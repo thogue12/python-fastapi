@@ -30,8 +30,8 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
-        
-      - uses: actions/checkout@master
+
+      - uses: actions/checkout@v4
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
         with:
