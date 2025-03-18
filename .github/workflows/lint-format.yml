@@ -25,7 +25,7 @@ jobs:
         pip install pylint black
 
     - name: Run pylint
-      run: pylint $(git ls-files '*.py')
+      run: pylint .
       
     - name: Run black
       run: black --check .
