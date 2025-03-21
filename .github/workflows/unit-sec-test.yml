@@ -25,6 +25,15 @@ jobs:
       - uses: actions/checkout@master
       - uses: snyk/actions/setup@master
       - uses: actions/setup-python@master
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          python -m pip install --upgrade pip
+
+      - name: Authenticate with Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
       - name: Snyk test
         run: snyk test
         env:
