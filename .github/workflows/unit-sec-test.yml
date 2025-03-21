@@ -30,6 +30,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Checkout github repo
+        uses: actions/checkout@v4
+        
       - name: Install Snyk CLI
         run: npm install -g snyk
         
