@@ -16,7 +16,6 @@ jobs:
       run: |
         pip install -r requirements.txt
     
-
     - name: Run tests
       run: pytest tests/
 
@@ -29,22 +28,23 @@ jobs:
       actions: read
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: actions/checkout@v4
-      - name: 'Setup Python ${{ matrix.python-version}}'
-        uses: actions/setup-python@v3
-        with:
-          python-version: '${{ matrix.python-version}}'
-  
+      - name: Installing Snyk
+        run: |
+          npm install -g snyk
+          snyk auth ${SNYK_TOKEN}
+      
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
           python -m pip install --upgrade pip
-        
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/python@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Snyk Code test
+        run: |
+          snyk code test --sarif > snyk-cide.sarif
+          synk test --sarif > snyk-test.sarif
 
   # Scan the contianer and lists all security vulnerabilities
   trivy_scans:
