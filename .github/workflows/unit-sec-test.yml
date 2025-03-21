@@ -18,33 +18,43 @@ jobs:
     
     - name: Run tests
       run: pytest tests/
-
-
-  # Run snyk code scanning for vulnerabilities
-  snyk_scan:      
-    permissions:
-      contents: read
-      security-events: write
-      actions: read
+  
+  stupid_snyk:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@master
+      - uses: snyk/actions/setup@master
+      - uses: actions/setup-python@master
+      - name: Snyk test
+        run: snyk test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Installing Snyk
-        run: |
-          npm install -g snyk
-          snyk auth ${SNYK_TOKEN}
+  # Run snyk code scanning for vulnerabilities
+  # snyk_scan:      
+  #   permissions:
+  #     contents: read
+  #     security-events: write
+  #     actions: read
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+
+  #     - name: Installing Snyk
+  #       run: |
+  #         npm install -g snyk
+  #         snyk auth ${SNYK_TOKEN}
       
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          python -m pip install --upgrade pip
+  #     - name: Install dependencies
+  #       run: |
+  #         pip install -r requirements.txt
+  #         python -m pip install --upgrade pip
 
-      - name: Snyk Code test
-        run: |
-          snyk code test --sarif > snyk-cide.sarif
-          synk test --sarif > snyk-test.sarif
+  #     - name: Snyk Code test
+  #       run: |
+  #         snyk code test --sarif > snyk-cide.sarif
+  #         synk test --sarif > snyk-test.sarif
 
   # Scan the contianer and lists all security vulnerabilities
   trivy_scans:
