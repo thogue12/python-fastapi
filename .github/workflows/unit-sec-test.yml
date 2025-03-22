@@ -19,49 +19,6 @@ jobs:
     - name: Run tests
       run: pytest tests/
   
-  stupid_snyk:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@main
-      
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          python -m pip install --upgrade pip
-      
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/python@master
-        with:
-          args: --file=requirements.txt
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
-  # Run snyk code scanning for vulnerabilities
-  # snyk_scan:      
-  #   permissions:
-  #     contents: read
-  #     security-events: write
-  #     actions: read
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-
-  #     - name: Installing Snyk
-  #       run: |
-  #         npm install -g snyk
-  #         snyk auth ${SNYK_TOKEN}
-      
-  #     - name: Install dependencies
-  #       run: |
-  #         pip install -r requirements.txt
-  #         python -m pip install --upgrade pip
-
-  #     - name: Snyk Code test
-  #       run: |
-  #         snyk code test --sarif > snyk-cide.sarif
-  #         synk test --sarif > snyk-test.sarif
-
   # Scan the contianer and lists all security vulnerabilities
   trivy_scans:
     name: Run Trivy security scanner against the image
