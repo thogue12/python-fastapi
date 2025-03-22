@@ -13,13 +13,13 @@ permissions:
   actions: read
 
 jobs: 
-    # build-image:
-    #     uses: ./.github/workflows/build-image.yml
+    build-image:
+        uses: ./.github/workflows/build-image.yml
 
-    # lint-format:
-    #     uses: ./.github/workflows/lint-format.yml
-    #     needs: build-image
+    lint-format:
+        uses: ./.github/workflows/lint-format.yml
+        needs: build-image
     
     unit-sec-scan:
         uses: ./.github/workflows/unit-sec-test.yml
-        #needs: lint-format
+        needs: lint-format
